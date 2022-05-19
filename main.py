@@ -53,7 +53,7 @@ Vigenere = [
      'W', 'X', 'Y']
 ]
 
-plainText = 'ATTACKATDAWN'
+plainText = 'ICANDOIT'
 key = 'LEMON'
 
 
@@ -77,7 +77,6 @@ print(keystream(key, plainText))
 
 
 def cipherText(k: list, txt: str) -> list:
-
     cipher = []
     for u in range(0, len(k)):
         for i in range(0, 25):
@@ -88,16 +87,36 @@ def cipherText(k: list, txt: str) -> list:
                 # for t in range(0, len(plainText)):
                 for j in range(0, 25):
                     if Vigenere[0][j] == txt[u]:
-
                         num_j = j
                         cipher.append(Vigenere[num_i][num_j])
                         break
                 break
         continue
 
-
-
     return cipher
 
 
 print(str(cipherText(keystream(key, plainText), plainText)))
+
+
+def decipherText(k: list, szyfr: list) -> list:
+    decode = []
+    for p in range(0, len(szyfr)):
+        for i in range(0, 25):
+            if Vigenere[i][0] == k[p]:
+                # print(Vigenere[i][0], i)
+                num_i = i
+                # print(Vigenere[num_i][1])
+                # for u in range(0, len(cipherText(keystream(key, plainText), plainText))):
+                for j in range(0, 25):
+                    if Vigenere[num_i][j] == szyfr[p]:
+                        # print(Vigenere[num_i][j], j)
+                        decode.append(Vigenere[0][j])
+                        break
+                break
+        continue
+    return decode
+
+
+
+print(decipherText(keystream(key, plainText), cipherText(keystream(key, plainText), plainText)))
