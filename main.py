@@ -53,8 +53,12 @@ Vigenere = [
      'W', 'X', 'Y']
 ]
 
-plainText = 'ICANDOIT'
-key = 'LEMON'
+plainText = input("Wpisz tekst do szyfrowania, ale użuj tylko wielki litery, bez spacerów: ")
+key = input("Wpisz klucz do szyfrowania: ")
+
+plainText = plainText.upper()
+plainText = plainText.replace(" ", "")
+key = key.upper()
 
 
 def keystream(k: str, text: str) -> list:
@@ -66,14 +70,12 @@ def keystream(k: str, text: str) -> list:
                     k_list.append(k[j])
                 else:
                     break
-
         else:
             break
-
     return k_list
 
 
-print(keystream(key, plainText))
+# print(keystream(key, plainText))
 
 
 def cipherText(k: list, txt: str) -> list:
@@ -81,10 +83,7 @@ def cipherText(k: list, txt: str) -> list:
     for u in range(0, len(k)):
         for i in range(0, 25):
             if Vigenere[i][0] == k[u]:
-
                 num_i = i
-
-                # for t in range(0, len(plainText)):
                 for j in range(0, 25):
                     if Vigenere[0][j] == txt[u]:
                         num_j = j
@@ -96,7 +95,16 @@ def cipherText(k: list, txt: str) -> list:
     return cipher
 
 
-print(str(cipherText(keystream(key, plainText), plainText)))
+print("Do you want to encrypt the text? (Print 'yes' or 'no')")
+
+answer = input()
+
+while answer not in ["yes", 'no']:
+    answer = input("Write your answer correctly")
+if answer == "yes":
+    print("Text encrypted: ", str(cipherText(keystream(key, plainText), plainText)))
+elif answer == "no":
+    input()
 
 
 def decipherText(k: list, szyfr: list) -> list:
@@ -104,13 +112,9 @@ def decipherText(k: list, szyfr: list) -> list:
     for p in range(0, len(szyfr)):
         for i in range(0, 25):
             if Vigenere[i][0] == k[p]:
-                # print(Vigenere[i][0], i)
                 num_i = i
-                # print(Vigenere[num_i][1])
-                # for u in range(0, len(cipherText(keystream(key, plainText), plainText))):
                 for j in range(0, 25):
                     if Vigenere[num_i][j] == szyfr[p]:
-                        # print(Vigenere[num_i][j], j)
                         decode.append(Vigenere[0][j])
                         break
                 break
@@ -118,5 +122,16 @@ def decipherText(k: list, szyfr: list) -> list:
     return decode
 
 
+print("Do you want to de encrypt the text? (Print 'yes' or 'no')")
 
-print(decipherText(keystream(key, plainText), cipherText(keystream(key, plainText), plainText)))
+answer_d = input()
+
+while answer_d not in ["yes", 'no']:
+    answer_d = input("Write your answer correctly")
+if answer_d == "yes":
+    print("Deencrypted text: ",
+          str(decipherText(keystream(key, plainText), cipherText(keystream(key, plainText), plainText))))
+elif answer_d == "no":
+    input()
+
+input()
